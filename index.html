@@ -1,41 +1,95 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Student Form</title>
+<title>Business Listing</title>
+<style>
+body{
+font-family: Arial;
+background:#f5f5f5;
+padding:20px;
+}
+
+.container{
+max-width:600px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:10px;
+}
+
+input,button{
+width:100%;
+padding:10px;
+margin:5px 0;
+}
+
+.business{
+background:#eee;
+padding:10px;
+margin-top:10px;
+border-radius:5px;
+}
+</style>
 </head>
+
 <body>
 
-<h2>Student Registration Form</h2>
+<div class="container">
+<h2>Add Business</h2>
 
-<form>
-    <label>Full Name:</label><br>
-    <input type="text" name="name"><br><br>
+<input id="name" placeholder="Business Name">
+<input id="category" placeholder="Category">
+<input id="phone" placeholder="Phone Number">
 
-    <label>Email:</label><br>
-    <input type="email" name="email"><br><br>
+<button onclick="addBusiness()">Add Business</button>
 
-    <label>Phone:</label><br>
-    <input type="tel" name="phone"><br><br>
+<h2>Business List</h2>
 
-    <label>Gender:</label><br>
-    <input type="radio" name="gender"> Male
-    <input type="radio" name="gender"> Female<br><br>
+<div id="list"></div>
 
-    <label>Course:</label><br>
-    <select>
-        <option>Computer Science</option>
-        <option>Engineering</option>
-        <option>Commerce</option>
-        <option>Arts</option>
-    </select><br><br>
+</div>
 
-    <label>Address:</label><br>
-    <textarea rows="4" cols="30"></textarea><br><br>
+<script>
 
-    <button type="submit">Submit</button>
-    <button type="reset">Reset</button>
+function addBusiness(){
 
-</form>
+let name=document.getElementById("name").value;
+let category=document.getElementById("category").value;
+let phone=document.getElementById("phone").value;
+
+let businesses=JSON.parse(localStorage.getItem("businesses")) || [];
+
+businesses.push({name,category,phone});
+
+localStorage.setItem("businesses",JSON.stringify(businesses));
+
+showBusinesses();
+
+}
+
+function showBusinesses(){
+
+let businesses=JSON.parse(localStorage.getItem("businesses")) || [];
+
+let html="";
+
+businesses.forEach(b=>{
+html+=`
+<div class="business">
+<b>${b.name}</b><br>
+Category: ${b.category}<br>
+Phone: ${b.phone}
+</div>
+`;
+});
+
+document.getElementById("list").innerHTML=html;
+
+}
+
+showBusinesses();
+
+</script>
 
 </body>
 </html>
